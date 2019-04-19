@@ -12,6 +12,7 @@ parser.add_argument('--export_depth_images', dest='export_depth_images', action=
 parser.add_argument('--export_color_images', dest='export_color_images', action='store_true')
 parser.add_argument('--export_poses', dest='export_poses', action='store_true')
 parser.add_argument('--export_intrinsics', dest='export_intrinsics', action='store_true')
+parser.add_argument('--frame_stride', type=int, default=1)
 parser.set_defaults(export_depth_images=False, export_color_images=False, export_poses=False, export_intrinsics=False)
 
 opt = parser.parse_args()
@@ -26,11 +27,11 @@ def main():
   sd = SensorData(opt.filename)
   sys.stdout.write('loaded!\n')
   if opt.export_depth_images:
-    sd.export_depth_images(os.path.join(opt.output_path, 'depth'))
+    sd.export_depth_images(os.path.join(opt.output_path, 'depth'), frame_skip=opt.frame_stride)
   if opt.export_color_images:
-    sd.export_color_images(os.path.join(opt.output_path, 'color'))
+    sd.export_color_images(os.path.join(opt.output_path, 'color'), frame_skip=opt.frame_stride)
   if opt.export_poses:
-    sd.export_poses(os.path.join(opt.output_path, 'pose'))
+    sd.export_poses(os.path.join(opt.output_path, 'pose'), frame_skip=opt.frame_stride)
   if opt.export_intrinsics:
     sd.export_intrinsics(os.path.join(opt.output_path, 'intrinsic'))
 
